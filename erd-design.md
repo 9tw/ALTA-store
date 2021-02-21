@@ -37,11 +37,43 @@ Tabel Users
 
 ### Categories
 
+Tabel Categories
+
+| Nama Field | Tipe Data | Contoh Nilai | Penjelasan |
+| ---------- | --------- | ------------ | ---------- |
+| id | INT | 1 | ID digunakan untuk membedakan data antar Categories dan digunakan pada tabel Products untuk mengetahui kategori dari suatu product. |
+| nama | STRING | alat olahraga | nama dari kategori, untuk ditampilkan di frontend. |
+| kode | STRING | SPORT | digunakan pada URI untuk URI yang lebih singkat dan mudah dipahami oleh end user. |
+
 ### Transactions
+
+Tabel Transactions
+
+| Nama Field | Tipe Data | Contoh Nilai | Penjelasan |
+| ---------- | --------- | ------------ | ---------- |
+| id | INT | 1 | ID digunakan untuk membedakan antar data Transactions dan digunakan pada tabel Transaction Items untuk mengetahui item-item yang terdapat pada suatu transaksi. |
+| kode_invoice | STRING(25) | 202102201757001 | Sebagai ID yang ditampilkan ke end user untuk mengetahui status dan item-item yang dibeli dari transaksi yang dimiliki. |
+| tanggal_invoice | DATETIME | 2021-02-20 17:59:00 | Untuk mengetahui tanggal invoice dibuat. |
+| tanggal_tenggat_pembayaran | DATETIME | 2021-02-23 00:00:00 | Untuk mengetahui tenggat pembayaran yang akan memengaruhi status pembayaran jika transaksi tidak kunjung dilakukan. |
+| tanggal_selesai_pembayaran | DATETIME | 2021-02-21 15:00:00 | Untuk mengetahui tanggal dari proses pembayaran telah dilakukan oleh user. |
+| tanggal_konfirmasi_pembayaran | DATETIME | 2021-02-21 16:00:00 | Untuk mengetahui tanggal dari proses konfirmasi pembayaran yang dilakun oleh admin. |
+| tanggal_terima_pesanan | DATETIME | 2021-02-24 17:00:00 | Untuk mengetahui tanggal dari paket telah diterima oleh pembeli. |
+| tanggal_selesai_transaksi | DATETIME | 2021-02-24 17:30:00 | Untuk mengetahui tanggal dari proses konfirmasi transaksi telah selesai yang dilakukan oleh admin. |
 
 ## Tabel Relasi
 Penjelasan Tabel Relasi, merupakan tabel yang tidak bisa berdiri sendiri karena memerlukan attribute dari tabel lain untuk dapat menambahkan data baru. Contohnya tidak bisa menambahkan data pada Tabel Products jika tidak diberikan nilai `id` dari Tabel Categories.
 
 ### Products
+
+Tabel Products
+
+| Nama Field | Tipe Data | Contoh Nilai | Penjelasan |
+| ---------- | --------- | ------------ | ---------- |
+| id | INT | 1 | ID digunakan untuk membedakan antara data suatu Products dengan data product yang lain dan juga digunakan pada transaksi untuk mengetahui detail dari product yang masuk transaksi. |
+| nama | STRING(90) | Buku Dasar Pemrograman Golang oleh Alterra Academy | Nama dari produk yang dijual untuk ditampilkan ke user. |
+| stok | INT | 12 | Stok dari produk yang dijual, digunakan pada proses transaksi sehingga hanya dapat membeli produk dengan stok yang sesuai saja. |
+| deskripsi | STRING(255) | Buku Dasar Pemrograman Golang ditulis oleh Tim Alterra Academy yang diterbitkan pada tahun 2021 ini meliputi materi algoritma dasar hingga penggunaan Framework Echo untuk membangun sebuah Backend berbasis RESTful API dengan jumlah halaman mencapai 420 halaman. | Deskripsi dari produk yang hendak dijual yang ditampilkan pada user.  
+| harga | INT | 180000 | Harga dari produk yang dijual yang digunakan pada proses transaksi.
+| categories_id | INT | 1 | ID dari categories produk untuk ditampilkan ke user pada saat proses pencarian atau sorting berdasarkan categories. |
 
 ### Transaction Items
