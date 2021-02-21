@@ -77,3 +77,16 @@ Tabel Products
 | categories_id | INT | 1 | ID dari categories produk untuk ditampilkan ke user pada saat proses pencarian atau sorting berdasarkan categories. |
 
 ### Transaction Items
+
+Tabel Transactions Items
+
+| Nama Field | Tipe Data | Contoh Nilai | Penjelasan |
+| ---------- | --------- | ------------ | ---------- |
+| id | INT | 1 |  ID membedakan antara suatu transaction items dengan transaction items yang lain. |
+| users_id | INT | 1 | users_id digunakan untuk mengetahui pemilik atau user dari suatu data transaction items. |
+| products_id | INT | 1 | products_id digunakan untuk mengetahui detail dari products yang dibeli oleh user. |
+| status | INT | 0 | status menandakan status dari transaksi. `0` => `cart`; `1` => `menunggu pembayaran`; `2` => `menunggu konfirmasi pembayaran oleh admin`; `3` => `menunggu pesanan sampai ke customer`; `4` => `pesanan sudah diterima oleh customer`; `5` => `pesanan selesai dikonfirmasi oleh admin`; `-1` => `pesanan gagal atau dibatalkan`. |
+| harga_total | INT | 90000 | total harga dari suatu transaction items yang didapatkan dari harga dikalikan dengan jumlah item yang dipesan. |
+| harga | INT | 45000 | harga dari suatu products, disimpan di tabel Transaction Items supaya dapat menyimpan harga pada saat user membeli produk. |
+| stok | INT | 2 | jumlah dari suatu products yang dibeli. |
+| transactions_id | INT | 1 | untuk mengetahui detail transactions dari suatu transactions items seperti kode invoice dan tanggal transaksi. |  
