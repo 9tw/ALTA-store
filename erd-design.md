@@ -59,6 +59,8 @@ Tabel Transactions
 | tanggal_konfirmasi_pembayaran | DATETIME | 2021-02-21 16:00:00 | Untuk mengetahui tanggal dari proses konfirmasi pembayaran yang dilakun oleh admin. |
 | tanggal_terima_pesanan | DATETIME | 2021-02-24 17:00:00 | Untuk mengetahui tanggal dari paket telah diterima oleh pembeli. |
 | tanggal_selesai_transaksi | DATETIME | 2021-02-24 17:30:00 | Untuk mengetahui tanggal dari proses konfirmasi transaksi telah selesai yang dilakukan oleh admin. |
+| bukti_transfer | STRING(255) | https://unsplash.com/photos/bC0uxTH7aS0 | Link gambar dari bukti transfer atau bukti pembayaran yang lain yang digunakan oleh admin untuk verifikasi. |
+| status | INT | 1 | Status dari transactions `1` => `menunggu pembayaran`; `2` => `menunggu konfirmasi pembayaran oleh admin`; `3` => `menunggu pesanan sampai ke customer`; `4` => `pesanan sudah diterima oleh customer`; `5` => `pesanan selesai dikonfirmasi oleh admin`; `-1` => `pesanan gagal atau dibatalkan`. |
 
 ## Tabel Relasi
 Penjelasan Tabel Relasi, merupakan tabel yang tidak bisa berdiri sendiri karena memerlukan attribute dari tabel lain untuk dapat menambahkan data baru. Contohnya tidak bisa menambahkan data pada Tabel Products jika tidak diberikan nilai `id` dari Tabel Categories.
@@ -75,6 +77,7 @@ Tabel Products
 | deskripsi | STRING(255) | Buku Dasar Pemrograman Golang ditulis oleh Tim Alterra Academy yang diterbitkan pada tahun 2021 ini meliputi materi algoritma dasar hingga penggunaan Framework Echo untuk membangun sebuah Backend berbasis RESTful API dengan jumlah halaman mencapai 420 halaman. | Deskripsi dari produk yang hendak dijual yang ditampilkan pada user.  
 | harga | INT | 180000 | Harga dari produk yang dijual yang digunakan pada proses transaksi.
 | categories_id | INT | 1 | ID dari categories produk untuk ditampilkan ke user pada saat proses pencarian atau sorting berdasarkan categories. |
+| gambar | STRING(255) | https://unsplash.com/photos/bC0uxTH7aS0 | Link gambar dari produk yang hendak dijual. |
 
 ### Transaction Items
 
@@ -85,8 +88,9 @@ Tabel Transactions Items
 | id | INT | 1 |  ID membedakan antara suatu transaction items dengan transaction items yang lain. |
 | users_id | INT | 1 | users_id digunakan untuk mengetahui pemilik atau user dari suatu data transaction items. |
 | products_id | INT | 1 | products_id digunakan untuk mengetahui detail dari products yang dibeli oleh user. |
-| status | INT | 0 | status menandakan status dari transaksi. `0` => `cart`; `1` => `menunggu pembayaran`; `2` => `menunggu konfirmasi pembayaran oleh admin`; `3` => `menunggu pesanan sampai ke customer`; `4` => `pesanan sudah diterima oleh customer`; `5` => `pesanan selesai dikonfirmasi oleh admin`; `-1` => `pesanan gagal atau dibatalkan`. |
-| harga_total | INT | 90000 | total harga dari suatu transaction items yang didapatkan dari harga dikalikan dengan jumlah item yang dipesan. |
+| gambar | STRING(255) | https://unsplash.com/photos/bC0uxTH7aS0 | link gambar dari produk yang hendak dibeli supaya jika gambar pada master produk berubah, gambar pada transaction items tetap sesuai seperti saat user membeli produk tersebut. |
+| status | INT | 0 | status menandakan status dari transaksi. `0` => `cart`; `1` => `mode transaksi mengikuti status pada tabel Transactions`. |
 | harga | INT | 45000 | harga dari suatu products, disimpan di tabel Transaction Items supaya dapat menyimpan harga pada saat user membeli produk. |
-| stok | INT | 2 | jumlah dari suatu products yang dibeli. |
+| jumlah | INT | 2 | jumlah dari suatu products yang dibeli. |
+| harga_total | INT | 90000 | total harga dari suatu transaction items yang didapatkan dari harga dikalikan dengan jumlah item yang dipesan. |
 | transactions_id | INT | 1 | untuk mengetahui detail transactions dari suatu transactions items seperti kode invoice dan tanggal transaksi. |  
