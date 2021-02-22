@@ -17,19 +17,14 @@
 ## Gambar
 RESTful API Design
 
-![Gambar Design RESTful API](API.PNG)
+![Gambar Design RESTful API](api.PNG)
 
 ## Penjelasan Tiap Master
-- Users
-  Pengguna program ini (pelanggan). Terdapat login dan register.
-- Categories
-  Kategori untuk barang.
-- Products
-  Kumpulan barang pada program ini.
-- Carts
-  Pelanggan memasukan barang ke keranjang belanja.
-- Transactions
-  Pelanggan melakukan transaksi pembelian barang.
+- Users: Pengguna program ini (pelanggan). Terdapat login dan register.
+- Categories: Kategori untuk barang.
+- Products: Kumpulan barang pada program ini.
+- Carts: Pelanggan memasukan barang ke keranjang belanja.
+- Transactions: Pelanggan melakukan transaksi pembelian barang.
 
 ## Parameter
 - Users
