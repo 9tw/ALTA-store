@@ -17,7 +17,7 @@
 ## Gambar
 RESTful API Design
 
-![Gambar Design RESTful API](api.PNG)
+![Gambar Design RESTful API](API.PNG)
 
 ## Penjelasan Tiap Master
 - Users: Pengguna program ini (pelanggan). Terdapat login dan register.
