@@ -7,41 +7,40 @@ import (
 	"github.com/labstack/echo"
 )
 
-func GetProductsControllers(c echo.Context) error {
-	kategori := c.QueryParam("kategori")
-	prods, e := database.GetProducts(kategori)
+func GetCategoriesControllers(c echo.Context) error {
+	cats, e := database.GetCategories()
 
 	if e != nil {
 		return echo.NewHTTPError(http.StatusBadRequest, e.Error())
 	}
 	return c.JSON(http.StatusOK, map[string]interface{}{
 		"status": "success",
-		"users":  prods,
+		"users":  cats,
 	})
 }
 
-func GetProductControllers(c echo.Context) error {
+func GetCategoryControllers(c echo.Context) error {
 	id := c.Param("id")
-	prods, e := database.GetProduct(id)
+	cats, e := database.GetCategory(id)
 
 	if e != nil {
 		return echo.NewHTTPError(http.StatusBadRequest, e.Error())
 	}
 	return c.JSON(http.StatusOK, map[string]interface{}{
 		"status": "success",
-		"users":  prods,
+		"users":  cats,
 	})
 }
 
-func CreateProductsController(c echo.Context) error {
-	prod := models.Products{}
-	c.Bind(&prod)
-	prods, e := database.CreateProducts(&prod)
+func CreateCategoriesController(c echo.Context) error {
+	cat := models.Categories{}
+	c.Bind(&cat)
+	cats, e := database.CreateCategories(&cat)
 	if e != nil {
 		return echo.NewHTTPError(http.StatusBadRequest, e.Error())
 	}
 	return c.JSON(http.StatusOK, map[string]interface{}{
 		"status": "success",
-		"users":  prods,
+		"users":  cats,
 	})
 }

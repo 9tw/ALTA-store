@@ -10,14 +10,14 @@ import (
 func New() *echo.Echo {
 	e := echo.New()
 
-	//products
-	e.GET("/products", controllers.GetProductsControllers)
-	e.GET("/products/:id", controllers.GetProductControllers)
+	//categories
+	e.GET("/categories", controllers.GetCategoriesControllers)
+	e.GET("/categories/:id", controllers.GetCategoryControllers)
 
-	//need token
+	//token
 	r := e.Group("/jwt")
 	r.Use(middleware.JWT([]byte(constants.SECRET_JWT)))
-	r.POST("/products", controllers.CreateProductsController)
+	r.POST("/categories", controllers.CreateCategoriesController)
 
 	return e
 }

@@ -33,5 +33,5 @@ func InitDB() {
 }
 
 func InitMigrate() {
-	DB.AutoMigrate(&models.Products{})
+	DB.AutoMigrate(&models.Categories{})
 }
