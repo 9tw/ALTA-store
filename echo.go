@@ -11,6 +11,6 @@ func Hello(c echo.Context) error {
 
 func main() {
   e := echo.New()
-  e.Get("/hello", Hello)
+  e.GET("/hello", Hello)
   e.Logger.Fatal(e.Start(":8000"))
 }
