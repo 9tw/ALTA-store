@@ -20,10 +20,15 @@ func New() *echo.Echo {
 	e.GET("/categories", controllers.GetCategoriesControllers)
 	e.GET("/categories/:id", controllers.GetCategoryControllers)
 
+	//products
+	e.GET("/products", controllers.GetProductsControllers)
+	e.GET("/products/:id", controllers.GetProductControllers)
+
 	//token
 	r := e.Group("/jwt")
 	r.Use(middleware.JWT([]byte(constants.SECRET_JWT)))
 	r.POST("/categories", controllers.CreateCategoriesController)
+	r.POST("/products", controllers.CreateProductsController)
 
 	return e
 }
