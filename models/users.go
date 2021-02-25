@@ -1,6 +1,6 @@
 package models
 
-// User struct contains User object
+// Users struct contains User object
 type Users struct {
   ID          int     `json:"id" form:"id"`
   Nama        string  `gorm:"size:255" json:"nama" form:"nama"`
