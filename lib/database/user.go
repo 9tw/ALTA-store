@@ -2,6 +2,7 @@ package database
 
 import (
 	"project/config"
+	"project/middlewares"
 	"project/models"
 )
 
@@ -38,11 +39,33 @@ func Login(user *models.Users) (interface{}, error) {
 		return nil, err
 	}
 
+	// set new user's token
+	var err error
+	user.Token, err = middlewares.CreateToken(user.ID)
+	if err != nil {
+		return nil, err
+	}
+
+	if err := config.DB.Save(user).Error; err != nil {
+		return nil, err
+	}
+
 	return  user, nil
 }
 
 // Register return successfuly registered data
 func Register(user *models.Users) (interface{}, error) {
+
+	if err := config.DB.Save(user).Error; err != nil {
+		return nil, err
+	}
+
+	// set new user's token
+	var err error
+	user.Token, err = middlewares.CreateToken(user.ID)
+	if err != nil {
+		return nil, err
+	}
 
 	if err := config.DB.Save(user).Error; err != nil {
 		return nil, err
