@@ -19,9 +19,9 @@ func GetUsers() (interface{}, error) {
 
 // GetUser return interface of a user by given User ID
 func GetUser(id int) (interface{}, error) {
-	var users []models.Users
+	var users models.Users
 
-	if err := config.DB.Where("id = ?", id).Find(&users).Error; err != nil {
+	if err := config.DB.Where("id = ?", id).First(&users).Error; err != nil {
 		return nil, err
 	}
 
