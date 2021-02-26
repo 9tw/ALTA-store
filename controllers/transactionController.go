@@ -41,6 +41,13 @@ func GetTransactionsControllers(c echo.Context) error {
 
 // GetTransactionControllers get specific transaction by given transaction ID
 func GetTransactionControllers(c echo.Context) error {
+	userID := middlewares.ExtractTokenUserID(c)
+	_, getUserErr := database.GetUser(userID)
+	if getUserErr != nil {
+		return echo.NewHTTPError(http.StatusBadRequest, getUserErr.Error())
+	}
+
+	
 	id, strconvErr := strconv.Atoi(c.Param("id"))
 	if strconvErr != nil {
 		return echo.NewHTTPError(http.StatusBadRequest, strconvErr.Error())
@@ -51,9 +58,17 @@ func GetTransactionControllers(c echo.Context) error {
 	if err != nil {
 		return echo.NewHTTPError(http.StatusBadRequest, err.Error())
 	}
+
+	transactionsModel := transactions.(models.Transactions)
+	items, getItemsErr := database.GetItemsByTransactionsID(userID, transactionsModel.ID)
+	if getItemsErr != nil {
+		return echo.NewHTTPError(http.StatusBadRequest, getItemsErr.Error())
+	}
+
 	return c.JSON(http.StatusOK, map[string]interface{}{
 		"status": "success",
 		"transactions": transactions,
+		"items": items,
 	})
 }
 
