@@ -7,6 +7,7 @@ import (
 	"github.com/labstack/echo/middleware"
 )
 
+// New returns echo object that contains all routes.
 func New() *echo.Echo {
 	e := echo.New()
 
@@ -23,6 +24,14 @@ func New() *echo.Echo {
 	//products
 	e.GET("/products", controllers.GetProductsControllers)
 	e.GET("/products/:id", controllers.GetProductControllers)
+
+	// transactions
+	jwtGroup := e.Group("")
+	jwtGroup.Use(middleware.JWT([]byte(constants.SECRET_JWT)))
+	jwtGroup.GET("/transactions", controllers.GetTransactionsControllers)
+	jwtGroup.GET("/transactions/:id", controllers.GetTransactionControllers)
+	jwtGroup.POST("/transactions", controllers.CreateTransactionControllers)
+	jwtGroup.PUT("/transactions", controllers.UpdateTransactionStatusControllers)
 
 	//token
 	r := e.Group("/jwt")
