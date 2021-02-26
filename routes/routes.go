@@ -33,6 +33,12 @@ func New() *echo.Echo {
 	jwtGroup.POST("/transactions", controllers.CreateTransactionControllers)
 	jwtGroup.PUT("/transactions", controllers.UpdateTransactionStatusControllers)
 
+	// carts
+	jwtGroup.GET("/carts", controllers.GetCartsControllers)
+	jwtGroup.POST("/carts", controllers.CreateCartsControllers)
+	jwtGroup.PUT("/carts/:id", controllers.UpdateCartsController)
+	jwtGroup.DELETE("/carts/:id", controllers.DeleteCartsController)
+
 	//token
 	r := e.Group("/jwt")
 	r.Use(middleware.JWT([]byte(constants.SECRET_JWT)))
