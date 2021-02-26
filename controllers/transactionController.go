@@ -12,8 +12,24 @@ import (
 
 // GetTransactionsControllers get all transactions
 func GetTransactionsControllers(c echo.Context) error {
-	transactions, err := database.GetTransactions()
+	userID := middlewares.ExtractTokenUserID(c)
+	_, getUserErr := database.GetUser(userID)
+	if getUserErr != nil {
+		return echo.NewHTTPError(http.StatusBadRequest, getUserErr.Error())
+	}
 
+	// Get Unique Transactions ID from TransactionItems where UserID is equal
+	uniqueTransactionIDs, uniqueErr := database.GetUniqueTransactionID(userID)
+	if uniqueErr != nil {
+		return echo.NewHTTPError(http.StatusBadRequest, uniqueErr.Error())
+	}
+
+	var uniqueIDs = []int{}
+	for _, transaction := range uniqueTransactionIDs.([]models.TransactionItems) {
+		uniqueIDs = append(uniqueIDs, transaction.TransactionsID)
+	}
+
+	transactions, err := database.GetTransactions(uniqueIDs)
 	if err != nil {
 		return echo.NewHTTPError(http.StatusBadRequest, err.Error())
 	}

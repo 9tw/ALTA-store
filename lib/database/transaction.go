@@ -8,10 +8,10 @@ import (
 )
 
 // GetTransactions return all transactions and query by user if any
-func GetTransactions() (interface{}, error) {
+func GetTransactions(transactionIDs []int) (interface{}, error) {
 	var transactions []models.Transactions
 
-	if err := config.DB.Find(&transactions).Error; err != nil {
+	if err := config.DB.Find(&transactions, transactionIDs).Error; err != nil {
 		return nil, err
 	}
 	return transactions, nil
