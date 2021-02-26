@@ -28,13 +28,19 @@ func GetCategory(id string) (interface{}, error) {
 
 // CreateCategories stores new category data to database
 func CreateCategories(cat *models.Categories) (interface{}, error) {
+	var cats []models.Categories
 
 	if cat.Kode == "" || cat.Nama == "" {
 		return nil, errors.New("Kode atau Nama Kategori tidak boleh kosong")
 	}
 
-	if err := config.DB.Save(cat).Error; err != nil {
-		return nil, err
+	if e := config.DB.Where("kode = ?", cat.Kode).First(&cats).Error; e != nil {
+		if err := config.DB.Save(cat).Error; err != nil {
+			return nil, err
+		}
+	} else {
+		return nil, errors.New("Kode Kategori sudah ada")
 	}
+
 	return cat, nil
 }
