@@ -20,6 +20,21 @@ func GetCarts(userID int) (interface{}, error) {
 	return transactionItems, nil
 }
 
+// GetItemsByTransactionsID return all transactionItems by given Transactions ID
+func GetItemsByTransactionsID(userID int, transactionsID int) (interface{}, error) {
+	var transactionItems []models.TransactionItems
+
+	if err := config.DB.Where(
+		"users_id = ? AND status = ? AND transactions_id = ?",
+		userID,
+		1,
+		transactionsID,
+	).Find(&transactionItems).Error; err != nil {
+		return nil, err
+	}
+	return transactionItems, nil
+}
+
 // GetUniqueTransactionID return all unique transaction ID based on given User ID
 func GetUniqueTransactionID(userID int) (interface{}, error) {
 	var uniqueTransactionsID []models.TransactionItems
