@@ -50,6 +50,14 @@ func CreateTransactionControllers(c echo.Context) error {
 	if err != nil {
 		return echo.NewHTTPError(http.StatusBadRequest, err.Error())
 	}
+
+	// Mengubah Transaction Items pada Cart untuk menginformasikan 
+	// bahwa Item sudah masuk ke Payment Process
+	transactionsModel := transactions.(*models.Transactions)
+	if _, checkoutCartsErr := database.CheckoutCarts(userID, transactionsModel.ID); checkoutCartsErr != nil {
+		return echo.NewHTTPError(http.StatusBadRequest, checkoutCartsErr.Error())
+	}
+
 	return c.JSON(http.StatusOK, map[string]interface{}{
 		"status": "success",
 		"transactions": transactions,
