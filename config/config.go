@@ -14,7 +14,7 @@ var DB *gorm.DB
 func InitDB() {
 
 	DB_Username := "root"
-	DB_Password := "mysql"
+	DB_Password := "" //mysql
 	DB_Port := "3306"
 	DB_Host := "127.0.0.1"
 	DB_Name := "altastore"

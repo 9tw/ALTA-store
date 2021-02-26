@@ -15,7 +15,7 @@ func GetCategoriesControllers(c echo.Context) error {
 	}
 	return c.JSON(http.StatusOK, map[string]interface{}{
 		"status": "success",
-		"users":  cats,
+		"categories":  cats,
 	})
 }
 
@@ -28,7 +28,7 @@ func GetCategoryControllers(c echo.Context) error {
 	}
 	return c.JSON(http.StatusOK, map[string]interface{}{
 		"status": "success",
-		"users":  cats,
+		"categories":  cats,
 	})
 }
 
@@ -41,6 +41,6 @@ func CreateCategoriesController(c echo.Context) error {
 	}
 	return c.JSON(http.StatusOK, map[string]interface{}{
 		"status": "success",
-		"users":  cats,
+		"categories":  cats,
 	})
 }
