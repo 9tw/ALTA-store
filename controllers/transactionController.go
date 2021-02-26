@@ -12,8 +12,24 @@ import (
 
 // GetTransactionsControllers get all transactions
 func GetTransactionsControllers(c echo.Context) error {
-	transactions, err := database.GetTransactions()
+	userID := middlewares.ExtractTokenUserID(c)
+	_, getUserErr := database.GetUser(userID)
+	if getUserErr != nil {
+		return echo.NewHTTPError(http.StatusBadRequest, getUserErr.Error())
+	}
 
+	// Get Unique Transactions ID from TransactionItems where UserID is equal
+	uniqueTransactionIDs, uniqueErr := database.GetUniqueTransactionID(userID)
+	if uniqueErr != nil {
+		return echo.NewHTTPError(http.StatusBadRequest, uniqueErr.Error())
+	}
+
+	var uniqueIDs = []int{}
+	for _, transaction := range uniqueTransactionIDs.([]models.TransactionItems) {
+		uniqueIDs = append(uniqueIDs, transaction.TransactionsID)
+	}
+
+	transactions, err := database.GetTransactions(uniqueIDs)
 	if err != nil {
 		return echo.NewHTTPError(http.StatusBadRequest, err.Error())
 	}
@@ -25,6 +41,13 @@ func GetTransactionsControllers(c echo.Context) error {
 
 // GetTransactionControllers get specific transaction by given transaction ID
 func GetTransactionControllers(c echo.Context) error {
+	userID := middlewares.ExtractTokenUserID(c)
+	_, getUserErr := database.GetUser(userID)
+	if getUserErr != nil {
+		return echo.NewHTTPError(http.StatusBadRequest, getUserErr.Error())
+	}
+
+	
 	id, strconvErr := strconv.Atoi(c.Param("id"))
 	if strconvErr != nil {
 		return echo.NewHTTPError(http.StatusBadRequest, strconvErr.Error())
@@ -35,9 +58,17 @@ func GetTransactionControllers(c echo.Context) error {
 	if err != nil {
 		return echo.NewHTTPError(http.StatusBadRequest, err.Error())
 	}
+
+	transactionsModel := transactions.(models.Transactions)
+	items, getItemsErr := database.GetItemsByTransactionsID(userID, transactionsModel.ID)
+	if getItemsErr != nil {
+		return echo.NewHTTPError(http.StatusBadRequest, getItemsErr.Error())
+	}
+
 	return c.JSON(http.StatusOK, map[string]interface{}{
 		"status": "success",
 		"transactions": transactions,
+		"items": items,
 	})
 }
 
@@ -50,6 +81,14 @@ func CreateTransactionControllers(c echo.Context) error {
 	if err != nil {
 		return echo.NewHTTPError(http.StatusBadRequest, err.Error())
 	}
+
+	// Mengubah Transaction Items pada Cart untuk menginformasikan 
+	// bahwa Item sudah masuk ke Payment Process
+	transactionsModel := transactions.(*models.Transactions)
+	if _, checkoutCartsErr := database.CheckoutCarts(userID, transactionsModel.ID); checkoutCartsErr != nil {
+		return echo.NewHTTPError(http.StatusBadRequest, checkoutCartsErr.Error())
+	}
+
 	return c.JSON(http.StatusOK, map[string]interface{}{
 		"status": "success",
 		"transactions": transactions,

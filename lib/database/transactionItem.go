@@ -20,6 +20,35 @@ func GetCarts(userID int) (interface{}, error) {
 	return transactionItems, nil
 }
 
+// GetItemsByTransactionsID return all transactionItems by given Transactions ID
+func GetItemsByTransactionsID(userID int, transactionsID int) (interface{}, error) {
+	var transactionItems []models.TransactionItems
+
+	if err := config.DB.Where(
+		"users_id = ? AND status = ? AND transactions_id = ?",
+		userID,
+		1,
+		transactionsID,
+	).Find(&transactionItems).Error; err != nil {
+		return nil, err
+	}
+	return transactionItems, nil
+}
+
+// GetUniqueTransactionID return all unique transaction ID based on given User ID
+func GetUniqueTransactionID(userID int) (interface{}, error) {
+	var uniqueTransactionsID []models.TransactionItems
+
+	if err := config.DB.Select("transactions_id").Distinct("transactions_id").Where(
+		"users_id = ? AND status = ?",
+		userID,
+		1,
+	).Find(&uniqueTransactionsID).Error; err != nil {
+		return nil, err
+	}
+	return uniqueTransactionsID, nil
+}
+
 // AddCarts store new transactionItems to cart
 func AddCarts(transactionItem *models.TransactionItems) (interface{}, error) {
 	// Validate transactionItem
@@ -57,6 +86,21 @@ func UpdateCarts(newTransactionItem *models.TransactionItems, transactionItemID 
 		return nil, err
 	}
 	return existingTransactionItem, nil
+}
+
+// CheckoutCarts update transactionItems status and transactions ID
+func CheckoutCarts(userID int, transactionsID int) (interface{}, error) {
+	if err := config.DB.Model(models.TransactionItems{}).Where(
+		"users_id = ? AND status = ?", 
+		userID, 
+		0,
+	).Updates(map[string]interface{}{
+		"status": 1,
+		"transactions_id": transactionsID,
+	}).Error; err != nil {
+		return nil, err
+	}
+	return nil, nil
 }
 
 // DeleteCarts delete existing transactionItems data
