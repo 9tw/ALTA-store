@@ -59,6 +59,21 @@ func UpdateCarts(newTransactionItem *models.TransactionItems, transactionItemID 
 	return existingTransactionItem, nil
 }
 
+// CheckoutCarts update transactionItems status and transactions ID
+func CheckoutCarts(userID int, transactionsID int) (interface{}, error) {
+	if err := config.DB.Model(models.TransactionItems{}).Where(
+		"users_id = ? AND status = ?", 
+		userID, 
+		0,
+	).Updates(map[string]interface{}{
+		"status": 1,
+		"transactions_id": transactionsID,
+	}).Error; err != nil {
+		return nil, err
+	}
+	return nil, nil
+}
+
 // DeleteCarts delete existing transactionItems data
 func DeleteCarts(transactionItemID int) (interface{}, error) {
 	// Check if given transactionID is available
