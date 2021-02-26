@@ -7,8 +7,10 @@ import (
 	"gorm.io/gorm"
 )
 
+// DB shared gorm.DB object accross the code to use
 var DB *gorm.DB
 
+// InitDB to initialize database connection
 func InitDB() {
 
 	DB_Username := "root"
@@ -32,8 +34,10 @@ func InitDB() {
 	InitMigrate()
 }
 
+// InitMigrate to initialize database migration
 func InitMigrate() {
 	DB.AutoMigrate(&models.Users{})
 	DB.AutoMigrate(&models.Categories{})
 	DB.AutoMigrate(&models.Products{})
+	DB.AutoMigrate(&models.Transactions{})
 }
