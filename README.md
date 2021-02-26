@@ -18,7 +18,18 @@ git clone https://github.com/9tw/ALTA-store.git
 ```
 
 ## Usage
-
+![Login](usage/login_in.PNG)
+Pengguna login dengan memasukan email dan password yang sudah terdaftar
+![Login](usage/login_out.PNG)
+Keluaran dari proses login berupa data diri dan token JWT
+![Categories](usage/categories_in.PNG)
+Pengguna dapat melihat kategori yang ada
+![Categories](usage/categories_out.PNG)
+Keluaran dari proses ini berupa data kategori
+![Products](usage/products_in.PNG)
+Pengguna dapat melihat produk yang ada
+![Products](usage/products_out.PNG)
+Keluaran dari proses ini berupa data produk
 
 ## Roadmap
   - Adding status customer and admin to users
